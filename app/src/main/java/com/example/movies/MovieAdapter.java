@@ -21,10 +21,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private List<Movie> movieList = new ArrayList<>();
     private onReachEndListener onReachEndListener;
+    private onOpenScreenDetailListener onOpenScreenDetailListener;
     private final static String TAG = "MovieAdapter";
 
     public void setOnReachEndListener(MovieAdapter.onReachEndListener onReachEndListener) {
         this.onReachEndListener = onReachEndListener;
+    }
+
+    public void setOnOpenScreenDetailListener(
+            MovieAdapter.onOpenScreenDetailListener onOpenScreenDetailListener) {
+        this.onOpenScreenDetailListener = onOpenScreenDetailListener;
     }
 
     public void setMovies(List<Movie> movies) {
@@ -42,7 +48,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: " + position);
         Movie movie = movieList.get(position);
         Glide.with(holder.itemView)
                 .load(movie.getPoster().getUrl())
@@ -64,6 +69,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         if(movieList.size() - 10 <= position && onReachEndListener != null) {
             onReachEndListener.onReachEnd();
         }
+        holder.imageViewPoster.setOnClickListener(l -> {
+            if(onOpenScreenDetailListener != null) {
+                onOpenScreenDetailListener.onOpenScreenDetail(movie);
+            }
+        });
     }
 
     @Override
@@ -73,6 +83,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     interface onReachEndListener {
         void onReachEnd();
+    }
+
+    interface onOpenScreenDetailListener {
+        void onOpenScreenDetail(Movie movie);
     }
 
     static class MovieViewHolder extends RecyclerView.ViewHolder {
