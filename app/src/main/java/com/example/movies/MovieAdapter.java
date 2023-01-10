@@ -1,6 +1,7 @@
 package com.example.movies;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,12 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     private List<Movie> movieList = new ArrayList<>();
+    private onReachEndListener onReachEndListener;
+    private final static String TAG = "MovieAdapter";
+
+    public void setOnReachEndListener(MovieAdapter.onReachEndListener onReachEndListener) {
+        this.onReachEndListener = onReachEndListener;
+    }
 
     public void setMovies(List<Movie> movies) {
         this.movieList = movies;
@@ -35,6 +42,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder: " + position);
         Movie movie = movieList.get(position);
         Glide.with(holder.itemView)
                 .load(movie.getPoster().getUrl())
@@ -52,11 +60,19 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         Drawable background = ContextCompat.getDrawable(holder.itemView.getContext(), backgroundId);
         holder.textViewRating.setBackground(background);
         holder.textViewRating.setText(String.valueOf(rating).substring(0, 3));
+
+        if(movieList.size() - 1 == position && onReachEndListener != null) {
+            onReachEndListener.onReachEnd();
+        }
     }
 
     @Override
     public int getItemCount() {
         return movieList.size();
+    }
+
+    interface onReachEndListener {
+        void onReachEnd();
     }
 
     static class MovieViewHolder extends RecyclerView.ViewHolder {

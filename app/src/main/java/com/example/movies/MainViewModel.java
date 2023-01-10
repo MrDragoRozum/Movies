@@ -36,8 +36,14 @@ public class MainViewModel extends AndroidViewModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(movieResponse -> {
+                    List<Movie> movieListAdded = movies.getValue();
+                    if(movieListAdded != null) {
+                        movieListAdded.addAll(movieResponse.getMovies());
+                        movies.setValue(movieListAdded);
+                    } else {
+                        movies.setValue(movieResponse.getMovies());
+                    }
                     page++;
-                    movies.setValue(movieResponse.getMovies());
                 }, error -> Log.d(TAG, "loadMovies: " + error.toString()));
     }
 

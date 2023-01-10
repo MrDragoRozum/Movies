@@ -30,5 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         mainViewModel.getMovies().observe(this, movies -> movieAdapter.setMovies(movies));
         mainViewModel.loadMovies();
+
+        movieAdapter.setOnReachEndListener(() -> mainViewModel.loadMovies());
     }
 }
