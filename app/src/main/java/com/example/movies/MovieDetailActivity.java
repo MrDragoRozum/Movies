@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class MovieDetailActivity extends AppCompatActivity {
 
     private ImageView imageViewPosterDetail;
@@ -61,6 +63,10 @@ public class MovieDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        MovieDao movieDao = MovieDatabase.getInstance(getApplication()).movieDao();
+        movieDao.insertMovie(movie)
+                .subscribeOn(Schedulers.io())
+                .subscribe();
     }
 
     private void initView() {
