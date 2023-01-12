@@ -50,11 +50,23 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTrailers"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
             tools:itemCount="3"
-            tools:listitem="@layout/trailer_item"
-            android:nestedScrollingEnabled="false"/>
+            tools:listitem="@layout/trailer_item">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewReviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewTrailers"
+            tools:itemCount="3"
+            tools:listitem="@layout/review_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

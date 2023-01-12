@@ -22,6 +22,7 @@ public class MovieDetailViewModel extends AndroidViewModel {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private static final String TAG = "MovieDetailViewModel";
     private final MutableLiveData<List<Trailer>> trailers = new MutableLiveData<>();
+    private final MutableLiveData<List<Review>> reviews = new MutableLiveData<>();
 
     public MovieDetailViewModel(@NonNull Application application) {
         super(application);
@@ -31,6 +32,10 @@ public class MovieDetailViewModel extends AndroidViewModel {
         return trailers;
     }
 
+    public LiveData<List<Review>> getReviews() {
+        return reviews;
+    }
+
     public void loadTrailer(int id) {
         Disposable disposable = ApiFactory.apiService.loadTrailers(id)
                 .subscribeOn(Schedulers.io())
@@ -38,6 +43,16 @@ public class MovieDetailViewModel extends AndroidViewModel {
                 .map(trailersResponse -> trailersResponse.getTrailers().getTrailerList())
                 .subscribe(trailers::setValue, throwable ->
                         Log.d(TAG, "Error: " + throwable.toString()));
+        compositeDisposable.add(disposable);
+    }
+
+    public void loadReview(int movieId) {
+        Disposable disposable = ApiFactory.apiService.loadReviews(movieId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(ReviewsResponse::getReviews)
+                .subscribe(reviews::setValue,
+                        error -> Log.d(TAG, "Error: " + error.toString()));
         compositeDisposable.add(disposable);
     }
 

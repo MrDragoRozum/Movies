@@ -4,21 +4,16 @@ import static android.content.Intent.ACTION_VIEW;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -27,11 +22,13 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView textViewYear;
     private TextView textViewDescription;
     private RecyclerView recyclerViewTrailers;
+    private RecyclerView recyclerViewReviews;
     private static final String MOVIE_KEY = "movie_key";
     private static final String TAG = "MovieDetailActivity";
 
     private MovieDetailViewModel viewModel;
     private TrailerAdapter trailerAdapter;
+    private ReviewAdapter reviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +37,19 @@ public class MovieDetailActivity extends AppCompatActivity {
         initView();
         Movie movie = (Movie) getIntent().getSerializableExtra(MOVIE_KEY);
         viewModel = new ViewModelProvider(this ).get(MovieDetailViewModel.class);
+
         trailerAdapter = new TrailerAdapter();
         recyclerViewTrailers.setAdapter(trailerAdapter);
         viewModel.getTrailers().observe(this,
                 trailers -> trailerAdapter.setTrailerList(trailers));
-
         viewModel.loadTrailer(movie.getId());
+
+        reviewAdapter = new ReviewAdapter();
+        recyclerViewReviews.setAdapter(reviewAdapter);
+        viewModel.getReviews().observe(this, reviews -> reviewAdapter.setReviewList(reviews));
+        viewModel.loadReview(movie.getId());
+
+
         Glide.with(this).load(movie.getPoster().getUrl()).into(imageViewPosterDetail);
         textViewTitle.setText(movie.getName());
         textViewYear.setText(String.valueOf(movie.getYear()));
@@ -65,6 +69,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewYear = findViewById(R.id.textViewYear);
         textViewDescription = findViewById(R.id.textViewDescription);
         recyclerViewTrailers = findViewById(R.id.recyclerViewTrailers);
+        recyclerViewReviews = findViewById(R.id.recyclerViewReviews);
     }
 
     public static Intent newIntent(Context context, Movie movie) {
