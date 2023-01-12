@@ -1,5 +1,6 @@
 package com.example.movies;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     private List<Review> reviewList = new ArrayList<>();
 
-    private final static String POSITIVE = "Позитивный";
+    private final static String TYPE_POSITIVE = "Позитивный";
+    private final static String TYPE_NEUTRAL = "Нейтральный";
+    private final static String TAG = "ReviewAdapter";
 
     public void setReviewList(List<Review> reviewList) {
         this.reviewList = reviewList;
@@ -38,17 +41,35 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Review review = reviewList.get(position);
 
-        holder.textViewAuthor.setText(review.getAuthor());
-        int backgroundId;
-        if(review.getType().equals(POSITIVE)) {
-            backgroundId = android.R.color.holo_green_light;
+        String type = review.getType();
+        int backgroundId = android.R.color.holo_red_light;;
+        if(type != null) {
+            switch (type) {
+                case TYPE_POSITIVE:
+                    backgroundId = android.R.color.holo_green_light;
+                    break;
+                case TYPE_NEUTRAL:
+                    backgroundId = android.R.color.holo_orange_light;
+                    break;
+            }
+            int backgroundColor = ContextCompat
+                    .getColor(holder.itemView.getContext(), backgroundId);
+            holder.cardViewBackground.setCardBackgroundColor(backgroundColor);
+            holder.textViewReview.setText(review.getReview());
+            holder.textViewAuthor.setText(review.getAuthor());
         } else {
-            backgroundId = android.R.color.holo_red_light;
-        }
-        int backgroundColor = ContextCompat.getColor(holder.itemView.getContext(), backgroundId);
-        holder.cardViewBackground.setCardBackgroundColor(backgroundColor);
-        holder.textViewReview.setText(review.getReview());
+            String logError = holder.itemView.getContext().getString(R.string.error);
+            String errorApology = holder.itemView.getContext().getString(R.string.error_apology);
+            backgroundId = android.R.color.holo_red_dark;
+            int backgroundColor = ContextCompat
+                    .getColor(holder.itemView.getContext(), backgroundId);
 
+            Log.e(TAG, logError + "\n" + errorApology);
+
+            holder.cardViewBackground.setCardBackgroundColor(backgroundColor);
+            holder.textViewAuthor.setText(logError);
+            holder.textViewReview.setText(errorApology);
+        }
     }
 
     @Override

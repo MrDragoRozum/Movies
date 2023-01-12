@@ -5,7 +5,7 @@
     android:id="@+id/cardViewBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
+    android:layout_margin="8dp"
     app:cardCornerRadius="4dp"
     app:cardUseCompatPadding="true"
     tools:cardBackgroundColor="@android:color/holo_green_light">
@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:alpha="0.8"
         android:orientation="vertical">
 
         <TextView
