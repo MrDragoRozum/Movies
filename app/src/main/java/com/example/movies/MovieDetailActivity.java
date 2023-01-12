@@ -1,5 +1,7 @@
 package com.example.movies;
 
+import static android.content.Intent.ACTION_VIEW;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -48,7 +51,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewYear.setText(String.valueOf(movie.getYear()));
         textViewDescription.setText(movie.getDescription());
 
-
+        trailerAdapter.setOnTrailerClickListener(trailer -> {
+            Intent intent = new Intent(ACTION_VIEW);
+            intent.setData(Uri.parse(trailer.getUrl()));
+            startActivity(intent);
+        });
 
     }
 
