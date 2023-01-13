@@ -1,5 +1,6 @@
 package com.example.movies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -7,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -17,16 +19,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewMovies;
     private MovieAdapter movieAdapter;
     private ProgressBar progressBarLoading;
-    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
-
-        Intent intentFM = FavoriteMovieActivity.newIntent(this);
-        startActivity(intentFM);
         movieAdapter = new MovieAdapter();
         recyclerViewMovies.setAdapter(movieAdapter);
         recyclerViewMovies.setLayoutManager(new GridLayoutManager(this, 2));
@@ -51,5 +49,20 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
         progressBarLoading = findViewById(R.id.progressBarLoading);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.itemFavorite) {
+            Intent intent = FavoriteMovieActivity.newIntent(this);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

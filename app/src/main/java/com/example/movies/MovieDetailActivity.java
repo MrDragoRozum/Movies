@@ -29,8 +29,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerViewTrailers;
     private RecyclerView recyclerViewReviews;
     private static final String MOVIE_KEY = "movie_key";
-    private static final String TAG = "MovieDetailActivity";
-
     private MovieDetailViewModel viewModel;
     private TrailerAdapter trailerAdapter;
     private ReviewAdapter reviewAdapter;

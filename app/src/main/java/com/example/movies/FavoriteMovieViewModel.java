@@ -21,8 +21,4 @@ public class FavoriteMovieViewModel extends AndroidViewModel {
         return movieDao.getAllFavoriteMovies();
     }
 
-    public LiveData<Movie> getFavoriteFilms(int id) {
-        return movieDao.getFavoriteMovie(id);
-    }
-
 }

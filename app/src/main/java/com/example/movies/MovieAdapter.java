@@ -1,7 +1,6 @@
 package com.example.movies;
 
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     private List<Movie> movieList = new ArrayList<>();
     private onReachEndListener onReachEndListener;
     private onOpenScreenDetailListener onOpenScreenDetailListener;
-    private final static String TAG = "MovieAdapter";
 
     public void setOnReachEndListener(MovieAdapter.onReachEndListener onReachEndListener) {
         this.onReachEndListener = onReachEndListener;
