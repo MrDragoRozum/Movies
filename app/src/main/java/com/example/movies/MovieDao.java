@@ -14,7 +14,7 @@ public interface MovieDao {
     LiveData<List<Movie>> getAllFavoriteMovies();
 
     @Query("SELECT * FROM MOVIE_FAVORITE WHERE id = :id")
-    LiveData<List<Movie>> getFavoriteMovie(int id);
+    LiveData<Movie> getFavoriteMovie(int id);
 
     @Insert
     Completable insertMovie(Movie movie);

@@ -3,11 +3,13 @@ package com.example.movies;
 import static android.content.Intent.ACTION_VIEW;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -20,6 +22,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class MovieDetailActivity extends AppCompatActivity {
 
     private ImageView imageViewPosterDetail;
+    private ImageView imageViewStar;
     private TextView textViewTitle;
     private TextView textViewYear;
     private TextView textViewDescription;
@@ -38,7 +41,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
         initView();
         Movie movie = (Movie) getIntent().getSerializableExtra(MOVIE_KEY);
-        viewModel = new ViewModelProvider(this ).get(MovieDetailViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MovieDetailViewModel.class);
 
         trailerAdapter = new TrailerAdapter();
         recyclerViewTrailers.setAdapter(trailerAdapter);
@@ -63,10 +66,17 @@ public class MovieDetailActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        MovieDao movieDao = MovieDatabase.getInstance(getApplication()).movieDao();
-        movieDao.insertMovie(movie)
-                .subscribeOn(Schedulers.io())
-                .subscribe();
+        Drawable startOn = ContextCompat.getDrawable(this, android.R.drawable.btn_star_big_on);
+        Drawable startOff = ContextCompat.getDrawable(this, android.R.drawable.btn_star_big_off);
+        viewModel.getFavoriteMovie(movie.getId()).observe(this, favoriteMovie -> {
+            if (favoriteMovie == null) {
+                imageViewStar.setImageDrawable(startOff);
+                imageViewStar.setOnClickListener(l -> viewModel.insertMovie(movie));
+            } else {
+                imageViewStar.setImageDrawable(startOn);
+                imageViewStar.setOnClickListener(l -> viewModel.removeMovie(movie.getId()));
+            }
+        });
     }
 
     private void initView() {
@@ -76,6 +86,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         textViewDescription = findViewById(R.id.textViewDescription);
         recyclerViewTrailers = findViewById(R.id.recyclerViewTrailers);
         recyclerViewReviews = findViewById(R.id.recyclerViewReviews);
+        imageViewStar = findViewById(R.id.imageViewStar);
     }
 
     public static Intent newIntent(Context context, Movie movie) {
