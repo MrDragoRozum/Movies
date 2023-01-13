@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
+
+        Intent intentFM = FavoriteMovieActivity.newIntent(this);
+        startActivity(intentFM);
         movieAdapter = new MovieAdapter();
         recyclerViewMovies.setAdapter(movieAdapter);
         recyclerViewMovies.setLayoutManager(new GridLayoutManager(this, 2));
