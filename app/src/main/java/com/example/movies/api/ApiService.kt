@@ -14,6 +14,7 @@ interface ApiService {
 
     @GET("movie?token=APS9HWG-F124CR7-MTSS4FC-KZQHDNR&field=id")
     fun loadTrailers(@Query("search") id: Int): Single<TrailersResponse>
+
     @GET("review?token=APS9HWG-F124CR7-MTSS4FC-KZQHDNR&field=movieId")
-    fun loadReviews(movieId: Int): Single<ReviewsResponse>
+    fun loadReviews(@Query("search") movieId: Int): Single<ReviewsResponse>
 }
