@@ -9,12 +9,12 @@ import retrofit2.http.Query
 
 
 interface ApiService {
-    @GET("movie?token=APS9HWG-F124CR7-MTSS4FC-KZQHDNR&field=rating.kp&search=7-10&sortField=votes.imdb&sortType=-1&limit=30")
+    @GET("movie?token=WK6EVMG-12E473Z-HEZ0B49-8MBTZRJ&field=rating.kp&search=7-10&sortField=votes.imdb&sortType=-1&limit=30")
     fun loadMovie(@Query("page") page: Int): Single<MovieResponse>
 
-    @GET("movie?token=APS9HWG-F124CR7-MTSS4FC-KZQHDNR&field=id")
+    @GET("movie?token=WK6EVMG-12E473Z-HEZ0B49-8MBTZRJ&field=id")
     fun loadTrailers(@Query("search") id: Int): Single<TrailersResponse>
 
-    @GET("review?token=APS9HWG-F124CR7-MTSS4FC-KZQHDNR&field=movieId")
+    @GET("review?token=WK6EVMG-12E473Z-HEZ0B49-8MBTZRJ&field=movieId")
     fun loadReviews(@Query("search") movieId: Int): Single<ReviewsResponse>
 }

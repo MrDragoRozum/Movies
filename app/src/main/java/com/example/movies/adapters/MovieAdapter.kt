@@ -12,7 +12,7 @@ import com.example.movies.pojo.Movie
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    private var movieList: List<Movie> = listOf()
+    var movieList: List<Movie> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -58,11 +58,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     override fun getItemCount() = movieList.size
 
-    interface OnReachEndListener {
+    fun interface OnReachEndListener {
         fun onReachEnd()
     }
 
-    interface OnOpenScreenDetailListener {
+    fun interface OnOpenScreenDetailListener {
         fun onOpenScreenDetail(movie: Movie)
     }
 
