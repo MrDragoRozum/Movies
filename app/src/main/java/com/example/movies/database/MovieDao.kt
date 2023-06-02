@@ -5,6 +5,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.movies.pojo.Movie
+import io.reactivex.rxjava3.core.Completable
+
 @Dao
 interface MovieDao {
     @Query("SELECT * FROM movie_favorite")
@@ -14,8 +16,8 @@ interface MovieDao {
     fun getFavoriteMovie(id: Int): LiveData<Movie>
 
     @Insert
-    fun insertMovie(movie: Movie)
+    fun insertMovie(movie: Movie): Completable
 
     @Query("DELETE FROM movie_favorite WHERE id = :id")
-    fun removeMovie(id: Int)
+    fun removeMovie(id: Int): Completable
 }
