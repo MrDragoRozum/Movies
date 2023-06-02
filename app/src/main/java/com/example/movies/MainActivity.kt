@@ -31,7 +31,10 @@ class MainActivity : AppCompatActivity() {
     private fun listeners() {
         with(movieAdapter) {
             onReachEndListener = MovieAdapter.OnReachEndListener { mainViewModel.loadMovies() }
-            onOpenScreenDetailListener = MovieAdapter.OnOpenScreenDetailListener {}
+            onOpenScreenDetailListener = MovieAdapter.OnOpenScreenDetailListener {
+                val intent = MovieDetailActivity.newIntent(this@MainActivity, it)
+                startActivity(intent)
+            }
         }
     }
 
