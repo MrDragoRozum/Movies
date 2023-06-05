@@ -1,6 +1,8 @@
 package com.example.movies
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     private val movieAdapter = MovieAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         installAdapter()
@@ -46,6 +47,18 @@ class MainActivity : AppCompatActivity() {
             if (it) binding.progressBarLoading.visibility = View.VISIBLE
             else binding.progressBarLoading.visibility = View.GONE
         }
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.itemFavorite) {
+            val intent = FavoriteMovieActivity.newIntent(this)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
     }
 }

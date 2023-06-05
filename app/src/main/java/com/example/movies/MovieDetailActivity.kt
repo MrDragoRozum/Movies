@@ -23,7 +23,6 @@ class MovieDetailActivity : AppCompatActivity() {
     private lateinit var movie: Movie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie_detail)
         binding = ActivityMovieDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this)[MovieDetailViewModel::class.java]
